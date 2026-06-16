@@ -442,12 +442,12 @@
   <div class="models-grid">
     <div class="model-card">
       <p class="model-num">Model · 01</p>
-      <h3 class="model-name">YOLO</h3>
-      <p class="model-sub">You Only Look Once</p>
+      <h3 class="model-name">CNN + YOLO</h3>
+      <p class="model-sub">Convolutional Neural Networks</p>
       <span class="model-tag tag-pred">Predictive AI</span>
-      <p>العمود الفقري لكشف المخالفات في الوقت الفعلي. يفحص الإطار كاملاً دفعةً واحدة بدلاً من منطقة منطقة، مما يجعله الأسرع في بيئات المراقبة المستمرة على الطرق السريعة.
+      <p>الشبكات العصبية الالتفافية <strong>(CNN)</strong> هي العمود الفقري للرؤية الحاسوبية في النقل. تستخرج تدريجياً سمات الصورة من البسيط (حواف، ألوان) إلى المعقد (شكل الشاحنة، لوحة الترقيم). نموذج <strong>YOLO</strong> المبني على CNN يفحص الإطار كاملاً دفعةً واحدة لكشف المخالفات فورياً.
       <br><br>
-      <strong>تطبيق:</strong> دراسة (Kumar et al., 2023) حققت 97.3% دقة في كشف الشاحنات المحمّلة زيادةً باستخدام YOLOv8 على تغذية كاميرات الطرق.</p>
+      <strong>تطبيق:</strong> دراسة (Kumar et al., 2023) حققت 97.3% دقة في كشف التحميل الزائد باستخدام YOLOv8 على كاميرات الطرق.</p>
     </div>
 
     <div class="model-card">
@@ -455,19 +455,29 @@
       <h3 class="model-name">CNN + LSTM</h3>
       <p class="model-sub">شبكات التسلسل الزمني</p>
       <span class="model-tag tag-pred">Predictive AI</span>
-      <p>تجمع CNN لاستخراج سمات الصورة مع LSTM لتحليل الأنماط عبر الزمن. مثالية لكشف إرهاق السائق عبر تتبع حركة المركبة على مدار دقائق، لا لحظة واحدة فقط.
+      <p>يجمع هذا التوليف قوة <strong>CNN</strong> في استخراج السمات البصرية مع <strong>LSTM</strong> لتحليل الأنماط الزمنية. مثالي لكشف إرهاق السائق عبر تتبع حركة المركبة على مدار دقائق، لا لحظة واحدة.
       <br><br>
-      <strong>تطبيق:</strong> أنظمة ADAS تستخدم هذا التوليف للإنذار المبكر من الانحراف عن المسار في الشاحنات الثقيلة بدقة 94%.</p>
+      <strong>تطبيق:</strong> أنظمة ADAS تستخدم CNN+LSTM للإنذار المبكر من الانحراف عن المسار في الشاحنات الثقيلة بدقة 94%.</p>
     </div>
 
     <div class="model-card">
       <p class="model-num">Model · 03</p>
       <h3 class="model-name">GAN & Diffusion</h3>
-      <p class="model-sub">نماذج التوليد البصري</p>
+      <p class="model-sub">Generative Adversarial Networks</p>
       <span class="model-tag tag-gen">Generative AI</span>
-      <p>حل ذكي لمشكلة شُح بيانات المخالفات النادرة. بعض الحوادث — كانقلاب الشاحنات — نادرة للغاية بحيث يستحيل بناء مجموعة تدريب كافية، فتُولّد هذه النماذج آلاف السيناريوهات الاصطناعية.
+      <p>نماذج <strong>GAN</strong> تعتمد على شبكتين متنافستين (مولّد ومميّز) لتوليد بيانات اصطناعية واقعية. حل جوهري لمشكلة شُح صور الحوادث النادرة — كانقلاب الشاحنات — التي يستحيل جمعها بالكميات الكافية لتدريب النماذج.
       <br><br>
-      <strong>تطبيق:</strong> توليد سيناريوهات اصطناعية لانقلاب الشاحنات في ظروف أمطار وضباب لتدريب نماذج الكشف المبكر.</p>
+      <strong>تطبيق:</strong> توليد آلاف سيناريوهات الحوادث في ظروف عواصف رملية وضباب لتدريب نماذج الكشف المبكر.</p>
+    </div>
+
+    <div class="model-card">
+      <p class="model-num">Model · 04</p>
+      <h3 class="model-name">Transformer & RAG</h3>
+      <p class="model-sub">Large Language Models + Retrieval</p>
+      <span class="model-tag tag-gen">Generative AI</span>
+      <p>بنية <strong>Transformer</strong> القائمة على آلية الانتباه (Attention) تُحلّل البيانات متعددة المصادر (كاميرات + حساسات + سجلات). تقنية <strong>RAG</strong> (Retrieval-Augmented Generation) تربط نموذج لغة كبير ببيانات الأسطول الحية لتقديم توصيات فورية لمشغّلي الشاحنات.
+      <br><br>
+      <strong>تطبيق:</strong> أنظمة استشارية تُجيب على أسئلة كـ "لماذا تجاوزت شاحنة رقم 7 السرعة المسموحة ثلاث مرات هذا الأسبوع؟"</p>
     </div>
   </div>
 </section>
