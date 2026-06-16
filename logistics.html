@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الذكاء الاصطناعي في النقل واللوجستيات</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0f1e;
+    --surface: #111827;
+    --surface2: #1a2236;
+    --accent: #f59e0b;
+    --accent2: #3b82f6;
+    --text: #f1f5f9;
+    --text-muted: #94a3b8;
+    --border: rgba(255,255,255,0.08);
+    --glow: rgba(245,158,11,0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Cairo', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; right: 0; left: 0; z-index: 100;
+    background: rgba(10,15,30,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 60px;
+  }
+  .nav-brand {
+    font-size: 0.85rem; font-weight: 600; color: var(--accent);
+    letter-spacing: 0.5px;
+  }
+  .nav-links { display: flex; gap: 1.5rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.8rem; color: var(--text-muted); text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    text-align: center;
+    padding: 6rem 2rem 4rem;
+    position: relative;
+    background: radial-gradient(ellipse 80% 60% at 50% 20%, rgba(245,158,11,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 40% at 80% 80%, rgba(59,130,246,0.06) 0%, transparent 60%);
+  }
+
+  /* Road grid background */
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(245,158,11,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(245,158,11,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, black, transparent);
+  }
+
+  .eyebrow {
+    font-size: 0.75rem; font-weight: 600; letter-spacing: 3px;
+    color: var(--accent); text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 0.75rem;
+  }
+  .eyebrow::before, .eyebrow::after {
+    content: ''; flex: 1; max-width: 60px;
+    height: 1px; background: var(--accent); opacity: 0.4;
+  }
+
+  .hero h1 {
+    font-size: clamp(2.2rem, 6vw, 4.5rem);
+    font-weight: 900; line-height: 1.15;
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 em {
+    font-style: normal; color: var(--accent);
+    position: relative;
+  }
+
+  .hero-sub {
+    font-size: clamp(0.95rem, 2vw, 1.1rem);
+    color: var(--text-muted); max-width: 640px;
+    margin-bottom: 3rem;
+  }
+
+  .course-badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-size: 0.75rem; color: var(--text-muted);
+    border: 1px solid var(--border);
+    border-radius: 2rem; padding: 0.4rem 1rem;
+    background: var(--surface);
+    margin-bottom: 2rem;
+  }
+  .course-badge span { color: var(--accent2); }
+
+  /* ─── STATS STRIP ─── */
+  .stats-strip {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    margin-top: 1rem;
+    background: var(--surface);
+    width: 100%; max-width: 900px;
+  }
+  .stat {
+    flex: 1; min-width: 160px;
+    padding: 1.5rem 1rem; text-align: center;
+    border-left: 1px solid var(--border);
+    position: relative;
+  }
+  .stat:last-child { border-left: none; }
+  .stat-num {
+    font-size: 2rem; font-weight: 900; color: var(--accent);
+    display: block; line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.72rem; color: var(--text-muted); margin-top: 0.3rem;
+    display: block;
+  }
+
+  /* ─── SECTIONS ─── */
+  section {
+    max-width: 960px; margin: 0 auto;
+    padding: 5rem 2rem;
+  }
+
+  .section-eyebrow {
+    font-size: 0.72rem; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--accent); font-weight: 700; margin-bottom: 0.75rem;
+  }
+  .section-title {
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 800; line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+  .section-lead {
+    color: var(--text-muted); font-size: 1rem;
+    max-width: 680px; margin-bottom: 3rem;
+  }
+
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin: 0 2rem;
+  }
+
+  /* ─── INTRO ─── */
+  .intro-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;
+    margin-top: 2rem;
+  }
+  .intro-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 1.75rem;
+  }
+  .intro-card h3 {
+    font-size: 1rem; font-weight: 700; margin-bottom: 0.75rem;
+    color: var(--accent2);
+  }
+  .intro-card p { font-size: 0.9rem; color: var(--text-muted); }
+
+  blockquote {
+    border-right: 3px solid var(--accent);
+    padding: 1rem 1.5rem;
+    background: var(--surface);
+    border-radius: 0 8px 8px 0;
+    margin: 2rem 0;
+    font-style: italic; color: var(--text-muted);
+    font-size: 0.95rem;
+  }
+
+  /* ─── MODELS ─── */
+  .models-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem; margin-top: 2rem;
+  }
+  .model-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 2rem;
+    position: relative; overflow: hidden;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+  .model-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(245,158,11,0.3);
+  }
+  .model-card::before {
+    content: '';
+    position: absolute; top: 0; right: 0;
+    width: 80px; height: 80px;
+    background: radial-gradient(circle, var(--glow), transparent 70%);
+  }
+  .model-num {
+    font-size: 0.65rem; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--accent); font-weight: 700; margin-bottom: 0.5rem;
+  }
+  .model-name { font-size: 1.3rem; font-weight: 800; margin-bottom: 0.3rem; }
+  .model-sub { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem; }
+  .model-tag {
+    display: inline-block; font-size: 0.65rem; letter-spacing: 1px;
+    text-transform: uppercase; padding: 0.2rem 0.6rem;
+    border-radius: 3px; margin-bottom: 1rem;
+  }
+  .tag-pred { background: rgba(59,130,246,0.15); color: var(--accent2); }
+  .tag-gen  { background: rgba(245,158,11,0.15); color: var(--accent); }
+  .model-card p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.7; }
+  .model-card strong { color: var(--text); }
+
+  /* ─── COMPANIES ─── */
+  .companies-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem; margin-top: 2rem;
+  }
+  .company-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 2rem;
+    transition: transform 0.2s;
+  }
+  .company-card:hover { transform: translateY(-3px); }
+  .company-num {
+    font-size: 2.5rem; font-weight: 900; color: var(--border);
+    line-height: 1; margin-bottom: 0.5rem;
+  }
+  .company-name { font-size: 1.15rem; font-weight: 800; }
+  .company-meta { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1rem; }
+  .company-desc { font-size: 0.875rem; color: var(--text-muted); margin-bottom: 1rem; }
+  .company-badge {
+    font-size: 0.72rem; font-weight: 700;
+    background: rgba(245,158,11,0.1);
+    color: var(--accent);
+    border: 1px solid rgba(245,158,11,0.2);
+    padding: 0.3rem 0.75rem; border-radius: 4px;
+    display: inline-block;
+  }
+
+  /* ─── TIMELINE ─── */
+  .timeline { position: relative; padding: 1rem 0; margin-top: 2rem; }
+  .timeline::before {
+    content: ''; position: absolute;
+    right: 18px; top: 0; bottom: 0; width: 2px;
+    background: linear-gradient(to bottom, var(--accent), var(--accent2), transparent);
+  }
+  .tl-item {
+    display: flex; gap: 2rem; margin-bottom: 2.5rem;
+    padding-right: 3rem; position: relative;
+  }
+  .tl-dot {
+    position: absolute; right: 10px; top: 4px;
+    width: 18px; height: 18px;
+    background: var(--bg); border: 2px solid var(--accent);
+    border-radius: 50%; flex-shrink: 0;
+  }
+  .tl-dot.blue { border-color: var(--accent2); }
+  .tl-year {
+    font-size: 1.1rem; font-weight: 900; color: var(--accent);
+    min-width: 50px; margin-top: 0.1rem;
+  }
+  .tl-content { flex: 1; }
+  .tl-tag {
+    font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--accent2); font-weight: 700; margin-bottom: 0.25rem;
+  }
+  .tl-title { font-size: 1rem; font-weight: 700; margin-bottom: 0.4rem; }
+  .tl-desc { font-size: 0.85rem; color: var(--text-muted); }
+
+  /* ─── CHALLENGES ─── */
+  .challenges-list {
+    display: flex; flex-direction: column; gap: 1.25rem; margin-top: 2rem;
+  }
+  .challenge-item {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 1.5rem;
+    display: flex; gap: 1.25rem; align-items: flex-start;
+  }
+  .ch-num {
+    font-size: 1.5rem; font-weight: 900; color: var(--border);
+    flex-shrink: 0; line-height: 1;
+  }
+  .ch-title { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.4rem; }
+  .ch-desc { font-size: 0.85rem; color: var(--text-muted); }
+
+  /* ─── FUTURE ─── */
+  .future-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem; margin-top: 2rem;
+  }
+  .future-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 2rem;
+    border-top: 3px solid var(--accent);
+  }
+  .future-card.blue { border-top-color: var(--accent2); }
+  .future-icon { font-size: 2rem; margin-bottom: 1rem; }
+  .future-title { font-size: 1rem; font-weight: 800; margin-bottom: 0.75rem; }
+  .future-desc { font-size: 0.85rem; color: var(--text-muted); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .footer-inner { max-width: 960px; margin: 0 auto; }
+  .footer-meta-row {
+    display: flex; flex-wrap: wrap; justify-content: center;
+    gap: 0; padding: 1.75rem 2rem 0;
+  }
+  .footer-meta-item {
+    display: flex; align-items: center; gap: 0.4rem;
+    padding: 0 1.5rem;
+    border-left: 1px solid var(--border);
+    font-size: 0.82rem;
+  }
+  .footer-meta-item:last-child { border-left: none; }
+  .footer-label { color: var(--text-muted); }
+  .footer-value { color: var(--text); font-weight: 600; }
+  .footer-accent { color: var(--accent); font-weight: 700; }
+  .footer-bottom-bar {
+    margin-top: 1.25rem;
+    padding: 0.75rem 2rem;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    font-size: 0.72rem; color: var(--text-muted);
+  }
+  @media (max-width: 640px) {
+    .footer-meta-row { flex-direction: column; align-items: center; gap: 0.5rem; }
+    .footer-meta-item { border-left: none; }
+  }
+
+  @media (max-width: 640px) {
+    .intro-grid { grid-template-columns: 1fr; }
+    .stats-strip { flex-direction: column; }
+    .stat { border-left: none; border-top: 1px solid var(--border); }
+    nav { padding: 0 1rem; }
+    .nav-links { gap: 0.75rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">Advanced Deep Learning · Domain 07</div>
+  <ul class="nav-links">
+    <li><a href="#intro">المقدمة</a></li>
+    <li><a href="#models">النماذج</a></li>
+    <li><a href="#companies">الشركات</a></li>
+    <li><a href="#timeline">الخط الزمني</a></li>
+    <li><a href="#challenges">التحديات</a></li>
+    <li><a href="#future">المستقبل</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="course-badge">Advanced Deep Learning &nbsp;·&nbsp; <span>Domain 07</span> &nbsp;·&nbsp; النقل واللوجستيات</div>
+  <p class="eyebrow">بحث تطبيقي</p>
+  <h1>الذكاء الاصطناعي في<br><em>النقل واللوجستيات</em></h1>
+  <p class="hero-sub">
+    كيف تستخدم نماذج الرؤية الحاسوبية والتعلم العميق لكشف مخالفات السلامة المرورية للشاحنات الثقيلة في الوقت الفعلي — مع نظرة محلية على رؤية المملكة 2030
+  </p>
+
+  <div class="stats-strip">
+    <div class="stat">
+      <span class="stat-num">1.35M</span>
+      <span class="stat-label">وفاة سنوياً بحوادث الطرق عالمياً</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">97%</span>
+      <span class="stat-label">دقة كشف المخالفات بنماذج YOLO</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">$1.35T</span>
+      <span class="stat-label">تكلفة حوادث الطرق سنوياً (WHO)</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">2030</span>
+      <span class="stat-label">هدف المملكة: تقليل الوفيات 50%</span>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- 1. INTRO -->
+<section id="intro">
+  <p class="section-eyebrow">١ · المقدمة</p>
+  <h2 class="section-title">صناعة النقل الثقيل<br>بين التحديات والفرص</h2>
+  <p class="section-lead">
+    الشاحنات الثقيلة تمثل العمود الفقري للاقتصاد اللوجستي، لكنها تُشكّل خطراً جسيماً على الطرق — إذ تتسبب في أكثر من 20% من وفيات الطرق رغم أنها لا تمثل سوى 5% من إجمالي المركبات.
+  </p>
+
+  <div class="intro-grid">
+    <div class="intro-card">
+      <h3>لماذا هذا المجال؟</h3>
+      <p>يعاني قطاع النقل الثقيل من تحديات أمنية موثّقة كالتحميل الزائد، وتجاوز السرعة، والقيادة بإرهاق. الرقابة البشرية التقليدية عاجزة عن التغطية الكاملة — وهنا تتفوق نماذج الرؤية الحاسوبية.</p>
+    </div>
+    <div class="intro-card">
+      <h3>لماذا الذكاء الاصطناعي مناسب؟</h3>
+      <p>ثلاثة عوامل تجعل هذا القطاع بيئة مثالية: وفرة كاميرات الطرق، تكرار المخالفات التي يمكن تصنيفها، والحاجة لقرارات فورية لا تتحملها الرقابة اليدوية.</p>
+    </div>
+    <div class="intro-card">
+      <h3>البُعد السعودي</h3>
+      <p>تستثمر رؤية 2030 بكثافة في البنية التحتية اللوجستية، مع هدف تقليل وفيات الطرق بنسبة 50% بحلول 2030. نماذج التعلم العميق تُسرّع تحقيق هذا الهدف.</p>
+    </div>
+    <div class="intro-card">
+      <h3>السؤال البحثي</h3>
+      <p>هل تستطيع نماذج YOLO والشبكات الالتفافية كشف مخالفات الشاحنات الثقيلة تلقائياً من كاميرات الطرق بدقة تُغني عن التدخل البشري؟</p>
+    </div>
+  </div>
+
+  <blockquote>
+    "الفارق بين كشف المخالفة خلال ثوانٍ وخلال ساعات قد يعني الفارق بين إنقاذ أرواح وتسجيل حادثة." — خلاصة بحثية من الدراسة
+  </blockquote>
+</section>
+
+<div class="divider"></div>
+
+<!-- 2. MODELS -->
+<section id="models">
+  <p class="section-eyebrow">٢ · نماذج التعلم العميق</p>
+  <h2 class="section-title">ثلاث عائلات نماذج<br>تُحرّك كشف المخالفات</h2>
+  <p class="section-lead">
+    كل نموذج يعالج نوعاً مختلفاً من المسائل: الكشف البصري الفوري، تحليل السلوك عبر الزمن، وتوليد بيانات تدريب اصطناعية.
+  </p>
+
+  <div class="models-grid">
+    <div class="model-card">
+      <p class="model-num">Model · 01</p>
+      <h3 class="model-name">YOLO</h3>
+      <p class="model-sub">You Only Look Once</p>
+      <span class="model-tag tag-pred">Predictive AI</span>
+      <p>العمود الفقري لكشف المخالفات في الوقت الفعلي. يفحص الإطار كاملاً دفعةً واحدة بدلاً من منطقة منطقة، مما يجعله الأسرع في بيئات المراقبة المستمرة على الطرق السريعة.
+      <br><br>
+      <strong>تطبيق:</strong> دراسة (Kumar et al., 2023) حققت 97.3% دقة في كشف الشاحنات المحمّلة زيادةً باستخدام YOLOv8 على تغذية كاميرات الطرق.</p>
+    </div>
+
+    <div class="model-card">
+      <p class="model-num">Model · 02</p>
+      <h3 class="model-name">CNN + LSTM</h3>
+      <p class="model-sub">شبكات التسلسل الزمني</p>
+      <span class="model-tag tag-pred">Predictive AI</span>
+      <p>تجمع CNN لاستخراج سمات الصورة مع LSTM لتحليل الأنماط عبر الزمن. مثالية لكشف إرهاق السائق عبر تتبع حركة المركبة على مدار دقائق، لا لحظة واحدة فقط.
+      <br><br>
+      <strong>تطبيق:</strong> أنظمة ADAS تستخدم هذا التوليف للإنذار المبكر من الانحراف عن المسار في الشاحنات الثقيلة بدقة 94%.</p>
+    </div>
+
+    <div class="model-card">
+      <p class="model-num">Model · 03</p>
+      <h3 class="model-name">GAN & Diffusion</h3>
+      <p class="model-sub">نماذج التوليد البصري</p>
+      <span class="model-tag tag-gen">Generative AI</span>
+      <p>حل ذكي لمشكلة شُح بيانات المخالفات النادرة. بعض الحوادث — كانقلاب الشاحنات — نادرة للغاية بحيث يستحيل بناء مجموعة تدريب كافية، فتُولّد هذه النماذج آلاف السيناريوهات الاصطناعية.
+      <br><br>
+      <strong>تطبيق:</strong> توليد سيناريوهات اصطناعية لانقلاب الشاحنات في ظروف أمطار وضباب لتدريب نماذج الكشف المبكر.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- 3. COMPANIES -->
+<section id="companies">
+  <p class="section-eyebrow">٣ · الشركات الرائدة</p>
+  <h2 class="section-title">من يبني هذا القطاع<br>في العالم اليوم</h2>
+  <p class="section-lead">
+    ثلاث شركات تمثّل ثلاثة مستويات من النضج التقني: منصة متكاملة لإدارة الأسطول، شركة متخصصة في سلامة الطرق، وحل موجّه للسوق السعودية.
+  </p>
+
+  <div class="companies-grid">
+    <div class="company-card">
+      <div class="company-num">01</div>
+      <h3 class="company-name">Mobileye</h3>
+      <p class="company-meta">Israel / Intel · تأسست 1999</p>
+      <p class="company-desc">الشركة الأب لتقنيات رؤية السيارات. طوّرت منظومة EyeQ المدمجة في أكثر من 125 مليون مركبة حول العالم، وتُوفّر حلولاً لمراقبة الشاحنات الثقيلة وتنبيهات التصادم الوشيك.</p>
+      <span class="company-badge">125M+ مركبة مُجهّزة</span>
+    </div>
+
+    <div class="company-card">
+      <div class="company-num">02</div>
+      <h3 class="company-name">Samsara</h3>
+      <p class="company-meta">USA · تأسست 2015</p>
+      <p class="company-desc">منصة متكاملة لإدارة أساطيل الشاحنات. تستخدم كاميرات AI داخل المقصورة تكشف إرهاق السائق وتشتّت انتباهه في الوقت الفعلي، مع تقرير فوري للمشغّل.</p>
+      <span class="company-badge">تقليل الحوادث 22%</span>
+    </div>
+
+    <div class="company-card">
+      <div class="company-num">03</div>
+      <h3 class="company-name">Derq</h3>
+      <p class="company-meta">UAE / Saudi · تأسست 2017</p>
+      <p class="company-desc">شركة خليجية رائدة في ذكاء التقاطعات. تربط كاميرات الطرق بخوارزميات التعلم العميق لكشف السلوكيات الخطرة وإرسال تنبيهات للسائقين والجهات المشغّلة. نشطة في السعودية والإمارات.</p>
+      <span class="company-badge">حاضرة في السوق السعودية</span>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- 4. TIMELINE -->
+<section id="timeline">
+  <p class="section-eyebrow">٤ · الخط الزمني</p>
+  <h2 class="section-title">تطور المجال<br>من 2016 إلى 2030</h2>
+  <p class="section-lead">مسار التطور التقني عالمياً يسير بالتوازي مع بناء المملكة لمنظومتها اللوجستية ضمن رؤية 2030.</p>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-year">2016</div>
+      <div class="tl-content">
+        <p class="tl-tag">Global · Foundation</p>
+        <p class="tl-title">YOLOv1 يُغيّر قواعد الكشف البصري</p>
+        <p class="tl-desc">نشر ورقة YOLO البحثية — أول نموذج يُحقق كشفاً في الوقت الفعلي بإطار واحد، فاتحاً الباب أمام تطبيقات المراقبة المرورية.</p>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot blue"></div>
+      <div class="tl-year">2017</div>
+      <div class="tl-content">
+        <p class="tl-tag">Saudi · Vision 2030</p>
+        <p class="tl-title">إطلاق رؤية 2030 — ومستهدفات الطرق</p>
+        <p class="tl-desc">إطلاق رؤية 2030 بهدف واضح: تقليل وفيات الطرق 50% بحلول 2030. البنية التحتية اللوجستية تُصبح أولوية وطنية.</p>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-year">2020</div>
+      <div class="tl-content">
+        <p class="tl-tag">Global · Commercial Scale</p>
+        <p class="tl-title">Samsara و Mobileye — التوسّع التجاري الواسع</p>
+        <p class="tl-desc">تجاوز عدد المركبات المُجهّزة بنماذج AI 100 مليون مركبة عالمياً. كاميرات الشاحنات تُصبح معياراً في أساطيل النقل الكبرى.</p>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot blue"></div>
+      <div class="tl-year">2022</div>
+      <div class="tl-content">
+        <p class="tl-tag">Saudi · Infrastructure</p>
+        <p class="tl-title">منظومة نيوم وبدء مشاريع اللوجستيات الكبرى</p>
+        <p class="tl-desc">إطلاق مشاريع لوجستية ضخمة تتطلب منظومات نقل ذكية — فرصة حقيقية لتطبيق نماذج مراقبة الشاحنات على الطرق السعودية.</p>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-year">2023</div>
+      <div class="tl-content">
+        <p class="tl-tag">Global · Breakthrough</p>
+        <p class="tl-title">YOLOv8 و Generative AI تدخلان المجال</p>
+        <p class="tl-desc">YOLOv8 يُحقق 97%+ دقة في كشف مخالفات الشاحنات. نماذج Diffusion تُستخدم لأول مرة لتوليد بيانات تدريب اصطناعية للحوادث النادرة.</p>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot blue"></div>
+      <div class="tl-year">2030</div>
+      <div class="tl-content">
+        <p class="tl-tag">Saudi · Target</p>
+        <p class="tl-title">هدف رؤية 2030 — تقليل الوفيات 50%</p>
+        <p class="tl-desc">الفجوة بين الطموح والتطبيق التقني هي الفرصة التي ينتظرها مهندسو التعلم العميق في المملكة. منظومة نقل ذكية متكاملة تربط كاميرات الطرق بمراكز البيانات.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- 5. CHALLENGES -->
+<section id="challenges">
+  <p class="section-eyebrow">٥ · التحديات</p>
+  <h2 class="section-title">ما لا تقوله الإعلانات<br>عن هذه التقنية</h2>
+  <p class="section-lead">
+    الفرق بين الصورة التسويقية والواقع التقني: نماذج تعمل بكفاءة عالية في ظروف محددة، لكنها تواجه قيوداً جوهرية تستحق النقاش.
+  </p>
+
+  <div class="challenges-list">
+    <div class="challenge-item">
+      <div class="ch-num">01</div>
+      <div>
+        <h3 class="ch-title">شُح بيانات الحوادث النادرة</h3>
+        <p class="ch-desc">انقلاب الشاحنات وحوادث الاصطدام الكبرى نادرة إحصائياً — مما يجعل بناء مجموعة تدريب متوازنة تحدياً حقيقياً. الحل الحالي عبر GAN وDiffusion واعد لكنه لم يُصبح معياراً بعد.</p>
+      </div>
+    </div>
+    <div class="challenge-item">
+      <div class="ch-num">02</div>
+      <div>
+        <h3 class="ch-title">ضعف الأداء في الظروف البيئية القاسية</h3>
+        <p class="ch-desc">نماذج YOLO المُدرّبة في ظروف طقس معتدل تُخفق في حالات العواصف الرملية الشائعة في السعودية. قابلية النقل بين البيئات مشكلة موثّقة تحتاج بيانات تدريب محلية.</p>
+      </div>
+    </div>
+    <div class="challenge-item">
+      <div class="ch-num">03</div>
+      <div>
+        <h3 class="ch-title">قابلية التفسير والمسؤولية القانونية</h3>
+        <p class="ch-desc">عندما يُقرر نموذج AI إصدار مخالفة أو إيقاف شاحنة، من المسؤول قانونياً إذا كان القرار خاطئاً؟ الإطار التنظيمي السعودي لا يزال يُطوَّر لمعالجة هذه المسألة.</p>
+      </div>
+    </div>
+    <div class="challenge-item">
+      <div class="ch-num">04</div>
+      <div>
+        <h3 class="ch-title">الخصوصية ومستوى المراقبة</h3>
+        <p class="ch-desc">منظومة كاميرات شاملة على الطرق تُثير تساؤلات مشروعة حول حدود المراقبة. التوازن بين الأمن المروري وخصوصية السائقين معادلة تحتاج حلولاً تقنية وتشريعية متكاملة.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- 6. FUTURE -->
+<section id="future">
+  <p class="section-eyebrow">٦ · المستقبل</p>
+  <h2 class="section-title">ثلاثة تحوّلات قادمة<br>في خمس سنوات</h2>
+  <p class="section-lead">
+    أهمها للمختصين السعوديين تحديداً: تحوّل المملكة إلى مختبر إقليمي لتطبيقات الذكاء الاصطناعي في اللوجستيات.
+  </p>
+
+  <div class="future-grid">
+    <div class="future-card">
+      <div class="future-icon">🛣️</div>
+      <h3 class="future-title">الطرق الذكية المتكاملة</h3>
+      <p class="future-desc">الانتقال من كاميرات معزولة إلى شبكة متكاملة تربط الحساسات، LIDAR، والكاميرات في منظومة واحدة. كل نقطة على الطريق تُصبح عيناً ذكياً.</p>
+    </div>
+    <div class="future-card blue">
+      <div class="future-icon">🤖</div>
+      <h3 class="future-title">التوائم الرقمية للطرق</h3>
+      <p class="future-desc">محاكاة افتراضية كاملة للطرق السريعة تُتيح اختبار سيناريوهات الازدحام والحوادث قبل وقوعها، واتخاذ قرارات وقائية في الوقت الفعلي.</p>
+    </div>
+    <div class="future-card">
+      <div class="future-icon">🇸🇦</div>
+      <h3 class="future-title">المملكة كمختبر إقليمي</h3>
+      <p class="future-desc">مع هدف 2030 ومشاريع NEOM وتوسّع الشبكة اللوجستية، تتحوّل المملكة لمختبر إقليمي. ظروف الطرق السعودية — حرارة، عواصف رملية — لم تحظَ بالاهتمام البحثي الكافي.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-meta-row">
+      <div class="footer-meta-item">
+        <span class="footer-label">الطالب:</span>
+        <span class="footer-value">يوسف صالح بن عبدالله كوشك</span>
+      </div>
+      <div class="footer-meta-item">
+        <span class="footer-label">الرقم الجامعي:</span>
+        <span class="footer-value footer-accent">444000774</span>
+      </div>
+      <div class="footer-meta-item">
+        <span class="footer-label">المقرر:</span>
+        <span class="footer-value">Advanced Deep Learning — AI4203</span>
+      </div>
+      <div class="footer-meta-item">
+        <span class="footer-label">المشرف:</span>
+        <span class="footer-value">د. أحمد بن حسن الهندي</span>
+      </div>
+    </div>
+    <div class="footer-bottom-bar">
+      جامعة أم القرى · Advanced Deep Learning (AI4203) · 1446 هـ — 2025 م
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
